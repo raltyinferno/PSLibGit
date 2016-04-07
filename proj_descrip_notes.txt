@@ -1,0 +1,55 @@
+Interpreter Pattern
+C++ --> postscript (.ps)
+PL interpreters ^
+ - GSView
+ - various printer drivers
+
+Write
+ - a C++ library (it outputs postscript code)
+ - w/ various drawing functions
+
+Project Purpose: Object Oriented Design
+
+Tasks
+ - formalize API
+ - design at least 1 'nice' shape & add to API
+ - design & implement test strategy
+ - write library
+ - document
+
+Deliverables
+ - C++ source (library, testing code)
+ - multiple non-trivial examples of shapes & resulting PS code (must include added shapes)
+ - description of test strategy
+ - documentation
+
+Deadlines
+ - Fri 8 Apr, brief presentation
+ - Fri 15 Apr, brief presentation + demo
+ - Wed 22 Apr, final turn-in
+
+Details
+ - fundamental concepts of shapes
+ --- units: distance (1/72 -> inch, angle -> degrees)
+ --- objects: each represents a shape, each knows its bounding box
+ --- can make objects representing compound shapes from objects representing basic shapes
+ --- must be able to "draw" at some point (possibly specify center of shape here)
+
+ - basic shapes (functions)
+ --- circle (double radius)
+ --- polygon (int numSides, double sideLength)
+ --- rectangle (double width, double height)
+ --- spacer (double width, double height) // this is the bounding box
+ --- square (double side)
+ --- triangle (double side)
+
+ - compound shapes (functions)
+ --- rotated (Shape shape, int angle)
+ --- scaled (Shape shape, double sx, double sy)
+ --- layered (Shapes...Shapes)
+ --- vertical (Shapes...Shapes)
+ --- horizontal (Shapes...Shapes)
+
+Thoughts
+ - should be able to add new shapes to your code w/ minimal work
+ - class hierarchy, each class presents a kind of shape
