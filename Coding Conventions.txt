@@ -1,0 +1,11 @@
+Basic Coding Conventions
+
+-Camel Case
+-Tabs instead of spaces
+-brackets for if statements
+-brackets on next line
+	for
+	{
+	//
+	}
+-Variables with descriptive names
