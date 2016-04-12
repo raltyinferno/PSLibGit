@@ -1,0 +1,7 @@
+Design:
+
+	Hierarchy:
+		Shape: Circle, Square, Polygon, Rectangle, Spacer, Triangle, Decorator, Compound
+		Decorator: Rotated, Scaled
+		Compound: Layered, Verticle, Hrizontal
+	
