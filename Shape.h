@@ -20,9 +20,18 @@ double inch(double unit)
 }
 
 //to actually print page once all desired shapes have been drawn
-string showPage(string ps_script)
+string showPage()
 {
-	return ps_script + "showpage ";
+	return "showpage ";
+}
+
+//to translate
+string setOrigin(int x, int y)
+{
+	ostringstream xcon, ycon;
+	xcon << x;
+	ycon << y;
+	return xcon.str() + " " + ycon.str() + " " + "translate ";
 }
 
 //to output to a postscript file
