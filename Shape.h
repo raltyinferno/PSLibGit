@@ -22,7 +22,7 @@ double inch(double unit)
 //to actually print page once all desired shapes have been drawn
 string showPage(string ps_script)
 {
-	return ps_script + " showpage";
+	return ps_script + "showpage ";
 }
 
 //to output to a postscript file
@@ -53,7 +53,6 @@ public:
 	~Decorator() {}
 	virtual string draw() = 0;
 };
-
 
 /////////////////////////////
 //Basic Shape Classes
@@ -155,7 +154,7 @@ public:
 	}	
 	string draw()
 	{
-		string start = " gsave ";
+		string start = "gsave ";
 		string rot = angle + " rotate ";
 		string end = "grestore ";
 		return start + rot + passed_shape + end;

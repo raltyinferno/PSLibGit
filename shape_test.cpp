@@ -7,7 +7,6 @@ int main()
 {
 	Circle c1(inch(3));
 	Rotater r1(45,&c1);
-	cout << r1.draw()<<endl;
-	cout << "program ran" << endl;
+	cout << showPage(r1.draw())<<endl;
 	return 0;
 }
