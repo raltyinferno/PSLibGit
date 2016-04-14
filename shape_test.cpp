@@ -15,6 +15,8 @@ int main()
 	//Rectangle
 	Rectangle rect1(inch(2), inch(3));
 	cout << showPage(rect1.draw()) << endl;
+	Rotater r2(45, &rect1);
+	cout << showPage(r2.draw());
 
 	return 0;
 }

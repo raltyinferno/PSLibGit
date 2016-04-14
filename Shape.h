@@ -32,6 +32,7 @@ string showPage(string ps_script)
 //Abstract Classes
 class Shape
 {
+	
 	struct BoundingBox
 	{
 		float xTop;
@@ -40,10 +41,21 @@ class Shape
 		float yBottom;
 	};
 public:
+	struct point
+	{
+		point(double inp_x, double inp_y)
+		{
+			x = inp_x;
+			y = inp_y;
+		}
+		double x;
+		double y;
+	};
 	//Constructor
 	virtual ~Shape() {}
 	//Methods
 	virtual string draw() = 0;
+	virtual point center() = 0;
 };
 
 class Decorator : public Shape
@@ -52,6 +64,7 @@ public:
 	Decorator() {}
 	~Decorator() {}
 	virtual string draw() = 0;
+	virtual point center() = 0;
 };
 
 class CompoundShape : public Shape
@@ -60,6 +73,7 @@ public:
 	CompoundShape() {}
 	~CompoundShape() {}
 	virtual string draw() = 0;
+	virtual point center() = 0;
 };
 
 /////////////////////////////
@@ -67,21 +81,27 @@ public:
 class Circle : public Shape
 {
 public:
-	Circle(double rad)
+	Circle(double rad) :radi(rad)
 	{
 		ostringstream converter;
 		converter << rad;
 		radius = converter.str();
-		center = converter.str() +" " + converter.str();
+		middle = converter.str() +" " + converter.str();
 	}
 	string draw()
 	{
-		return  "newpath "+center+" " +radius +" 0 360 arc closepath stroke ";
+		return  "newpath "+middle+" " +radius +" 0 360 arc closepath stroke ";
+	}
+	point center()
+	{
+		point cent(radi, radi);
+		return cent;
 	}
 	~Circle() {}
 private:
+	double radi;
 	string radius;
-	string center;
+	string middle;
 };
 
 class Square : public Shape
@@ -91,16 +111,17 @@ public:
 	{}
 	string draw()
 	{}
+	point center()
+	{}
 	~Square() {}
 private:
 	string side;
-	string center;
 };
 
 class Rectangle : public Shape
 {
 public:
-	Rectangle(double in_height, double in_width)
+	Rectangle(double in_height, double in_width) : wdth(in_width), hght(in_height)
 	{
 		ostringstream converterH;
 		converterH << in_height;
@@ -122,8 +143,15 @@ public:
 		//temporary auto-moveto to point 144 144 until implementation is finalized.
 		return " newpath 144 144 moveto " + leftside + topside + rightside + "closepath stroke ";
 	}
+	point center()
+	{
+		point cent(wdth / 2, hght / 2);
+		return cent;
+	}
 	~Rectangle() {}
 private:
+	double wdth;
+	double hght;
 	string height;
 	string width;
 };
@@ -134,6 +162,8 @@ public:
 	Triangle(double side)
 	{}
 	string draw()
+	{}
+	point center()
 	{}
 	~Triangle() {}
 private:
@@ -146,6 +176,8 @@ public:
 	Polygon(int sides, double length)
 	{}
 	string draw()
+	{}
+	point center()
 	{}
 	~Polygon() {}
 private:
@@ -174,6 +206,8 @@ public:
 	{
 		return "";
 	}
+	point center()
+	{}
 	~Spacer() {}
 private:
 	string height;
@@ -185,7 +219,7 @@ private:
 class Rotater : public Decorator
 {
 public:
-	Rotater(int ang, Shape * shape)//figured it out, you have to pass a pointer to the base shape to be decorated
+	Rotater(int ang, Shape * shape): shp(shape)//figured it out, you have to pass a pointer to the base shape to be decorated
 	{
 		ostringstream converter;
 		converter << ang;
@@ -199,8 +233,13 @@ public:
 		string end = "grestore ";
 		return start + rot + passed_shape + end;
 	}
+	point center()
+	{
+		return shp->center();
+	}
 	~Rotater() {}
 private:
+	Shape * shp;
 	string angle;
 	string passed_shape;
 };
@@ -208,11 +247,19 @@ private:
 class Scaler : public Decorator
 {
 public:
-	Scaler(double scale, Shape * shape)
+	Scaler(double scale, Shape * shape): shp(shape), scl(scale)
 	{}
 	string draw()
 	{}
+	point center()
+	{
+		point cent(shp->center().x*scl, shp->center().y*scl);
+		return cent;
+	}
 	~Scaler() {}
 private:
-	string scale;};
+	Shape * shp;
+	double scl;
+	string scale;
+};
 #endif
