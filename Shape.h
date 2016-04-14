@@ -54,6 +54,14 @@ public:
 	virtual string draw() = 0;
 };
 
+class CompoundShape : public Shape
+{
+public:
+	CompoundShape() {}
+	~CompoundShape() {}
+	virtual string draw() = 0;
+};
+
 /////////////////////////////
 //Basic Shape Classes
 class Circle : public Shape
