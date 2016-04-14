@@ -92,10 +92,28 @@ private:
 class Rectangle : public Shape
 {
 public:
-	Rectangle(double height, double width)
-	{}
+	Rectangle(double in_height, double in_width)
+	{
+		ostringstream converterH;
+		converterH << in_height;
+
+		ostringstream converterW;
+		converterW << in_width;
+
+		height = converterH.str();
+		width = converterW.str();
+
+		//bounding box set-up here.
+	}
 	string draw()
-	{}
+	{
+		string leftside = "0 " + height + " rlineto ";
+		string topside = width + " 0 rlineto ";
+		string rightside = "0 -" + height + " rlineto ";
+
+		//temporary auto-moveto to point 144 144 until implementation is finalized.
+		return " newpath 144 144 moveto " + leftside + topside + rightside + "closepath stroke ";
+	}
 	~Rectangle() {}
 private:
 	string height;
@@ -130,10 +148,24 @@ private:
 class Spacer : public Shape
 {
 public:
-	Spacer(double height, double width)
-	{}
+	Spacer(double in_height, double in_width)
+	{
+		ostringstream converterH;
+		converterH << in_height;
+
+		ostringstream converterW;
+		converterW << in_width;
+
+		height = converterH.str();
+		width = converterW.str();
+
+		// As nothing is actually drawn, this should only
+		// create a bounding box instead using height/width.
+	}
 	string draw()
-	{}
+	{
+		return "";
+	}
 	~Spacer() {}
 private:
 	string height;
