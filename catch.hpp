@@ -10210,14 +10210,15 @@ int main (int argc, char * argv[])
 		d1 << r1.draw();
 
 		//Rectangle
-		
-		//Rectangle rect1(inch(2), inch(3));
-		//Rotater r2(45, &rect1);
-		//d1 << r2.draw();
+
+
+		class Rectangle rect1(inch(2), inch(3));
+		Rotater r2(45, &rect1);
+		d1 << r2.draw();
 
 		//Scaler
-		//Scaler s1(2, &r2);
-		//d1 << s1.draw();
+		Scaler s1(2, &r2);
+		d1 << s1.draw();
 		d1 << c1.draw();
 		d1.endPage();
 		d1.print();

@@ -58,6 +58,7 @@ public:
 	Document & operator <<(const string & str)
 	{
 		this->file << str << endl;
+		return *this;
 	}
 private:
 	ofstream file;
