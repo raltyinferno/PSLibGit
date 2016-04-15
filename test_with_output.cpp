@@ -1,6 +1,5 @@
 #include "Shape.h"
 #include <iostream>
-#include <iostream>
 #include <fstream>
 
 

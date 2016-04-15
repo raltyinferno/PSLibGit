@@ -5,10 +5,12 @@
 
 #include <sstream>
 #include <iostream>
+#include <fstream>
 using std::cout;
 using std::endl;
 using std::string;
 using std::ostringstream;
+using std::ofstream;
 
 ////////////////////////////
 //General Library Functions
@@ -31,11 +33,35 @@ string setOrigin(int x, int y)
 	ostringstream xcon, ycon;
 	xcon << x;
 	ycon << y;
-	return xcon.str() + " " + ycon.str() + " " + "translate ";
+	string origin = (xcon.str() + " " + ycon.str() + " " + "translate ");
+	return origin;
 }
 
 //to output to a postscript file
 //Adeline or Trace you were planning on doing this one right?
+
+class Document
+{
+public:
+	Document(string docName)
+	{
+		file.open(docName.c_str());
+	}
+	void print()
+	{
+		file.close();
+	}
+	void endPage()
+	{
+		file << "showpage \n";
+	}
+	Document & operator <<(const string & str)
+	{
+		this->file << str << endl;
+	}
+private:
+	ofstream file;
+};
 
 ///////////////////
 //Abstract Classes
@@ -52,11 +78,8 @@ class Shape
 public:
 	struct point
 	{
-		point(double inp_x, double inp_y)
-		{
-			x = inp_x;
-			y = inp_y;
-		}
+		point(double inp_x, double inp_y):x(inp_x),y(inp_y)
+		{}
 		double x;
 		double y;
 	};
@@ -71,7 +94,7 @@ class Decorator : public Shape
 {
 public:
 	Decorator() {}
-	~Decorator() {}
+	virtual ~Decorator() {}
 	virtual string draw() = 0;
 	virtual point center() = 0;
 };
@@ -80,7 +103,7 @@ class CompoundShape : public Shape
 {
 public:
 	CompoundShape() {}
-	~CompoundShape() {}
+	virtual ~CompoundShape() {}
 	virtual string draw() = 0;
 	virtual point center() = 0;
 };
@@ -99,7 +122,7 @@ public:
 	}
 	string draw()
 	{
-		return  "newpath "+middle+" " +radius +" 0 360 arc closepath stroke ";
+		return  "newpath "+middle+" " +radius +" 0 360 arc closepath stroke \n";
 	}
 	point center()
 	{
@@ -150,7 +173,7 @@ public:
 		string rightside = "0 -" + height + " rlineto ";
 
 		//temporary auto-moveto to point 144 144 until implementation is finalized.
-		return " newpath 144 144 moveto " + leftside + topside + rightside + "closepath stroke ";
+		return " newpath 144 144 moveto " + leftside + topside + rightside + "closepath stroke \n";
 	}
 	point center()
 	{
@@ -240,7 +263,7 @@ public:
 		string start = "gsave ";
 		string rot = angle + " rotate ";
 		string end = "grestore ";
-		return start + rot + passed_shape + end;
+		return start + rot + "\n \t" + passed_shape +end + "\n";
 	}
 	point center()
 	{
@@ -257,9 +280,15 @@ class Scaler : public Decorator
 {
 public:
 	Scaler(double scale, Shape * shape): shp(shape), scl(scale)
-	{}
+	{
+		ostringstream convert;
+		convert << scale; 
+		scale_str = convert.str();
+	}
 	string draw()
-	{}
+	{
+		return "gsave " + scale_str + " " + scale_str + " scale \n \t" + shp->draw() +"grestore \n";
+	}
 	point center()
 	{
 		point cent(shp->center().x*scl, shp->center().y*scl);
@@ -269,6 +298,11 @@ public:
 private:
 	Shape * shp;
 	double scl;
-	string scale;
+	string scale_str;
 };
+
+///////////////////////////
+//Compound Shape Classes
+
+
 #endif
