@@ -1,11 +1,11 @@
-#pragma once
-
 #ifndef SHAPE_H_INCLUDED
 #define SHAPE_H_INCLUDED
 
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <math.h>
+#include <string.h>
 using std::cout;
 using std::endl;
 using std::string;
@@ -58,6 +58,7 @@ public:
 	Document & operator <<(const string & str)
 	{
 		this->file << str << endl;
+		return *this;
 	}
 private:
 	ofstream file;
@@ -139,14 +140,32 @@ private:
 class Square : public Shape
 {
 public:
-	Square(double side)
-	{}
+	Square(double in_side) : edge(in_side)
+	{
+		ostringstream converterS;
+		converterS << in_side;
+
+		side = converterS.str();
+
+		// bounding box here
+	}
 	string draw()
-	{}
+	{
+		string leftSide = "0 " + side + " rlineto ";
+		string topSide = side + " 0 rlineto ";
+		string rightSide = "0 -" + side + " rlineto ";
+
+		// temporary moveto point 400 250
+		return "newpath " +(edge/-2)+" "+ (edge/-2)+" rmoveto " + leftSide + topSide + rightSide + "closepath stroke \n";
+	}
 	point center()
-	{}
+	{
+		point cent(edge / 2, edge / 2);
+		return cent;
+	}
 	~Square() {}
 private:
+	double edge;
 	string side;
 };
 
@@ -191,15 +210,36 @@ private:
 class Triangle : public Shape
 {
 public:
-	Triangle(double side)
-	{}
+	Triangle(double in_side) : edge(in_side)
+	{
+		height = (in_side / 2)*sqrt(3);
+		halfSide = in_side / 2;
+
+		hght = std::to_string(height);
+		halfS = std::to_string(halfSide);
+
+		// bounding box here
+	}
 	string draw()
-	{}
+	{
+		string leftSlant = halfS + " " + hght + " rlineto ";
+		string rightSlant = halfS + " -" + hght + " rlineto ";
+
+		// temporary moveto point 350 250
+		return " newpath 350 250 moveto " + leftSlant + rightSlant + "closepath stroke \n";
+	}
 	point center()
-	{}
+	{
+		point cent((sqrt(3) / 6)*edge, edge / 2);
+		return cent;
+	}
 	~Triangle() {}
 private:
-	string side;
+	double edge;
+	double halfSide;
+	double height;
+	string hght;
+	string halfS;
 };
 
 class Polygon : public Shape
