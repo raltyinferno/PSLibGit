@@ -6,6 +6,7 @@
 #include <fstream>
 #include <math.h>
 #include <string.h>
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -68,7 +69,7 @@ private:
 //Abstract Classes
 class Shape
 {
-	
+
 	struct BoundingBox
 	{
 		float xTop;
@@ -245,16 +246,96 @@ private:
 class Polygon : public Shape
 {
 public:
-	Polygon(int sides, double length)
-	{}
+	Polygon(int sides, double length) : numSides(sides), myLength(length)
+	{
+	    //calculate the width and height
+	    double pi = 3.14159;
+        if (sides%2 == 1)
+        {
+            double step1 = sin((pi*(sides-1))/(2*sides));
+            double step2 = sin(pi/sides);
+            double step3 = 1+(cos(pi/sides));
+            width = length * (step1/step2);
+            height = length * (step3/(2*step2));
+        }
+
+        else if (sides%4 == 0)
+        {
+            double step1 = cos(pi/sides);
+            double step2 = sin(pi/sides);
+            width = length * (step1/step2);
+            height = length * (step1/step2);
+        }
+        else
+        {
+            double step1 = cos(pi/sides);
+            double step2 = sin(pi/sides);
+            width = length * (1/step2);
+            height = length * (step1/step2);
+        }
+
+	}
 	string draw()
-	{}
+	{
+        string drawPolygon = "";
+        drawPolygon += "0.5 setlinewidth";
+        drawPolygon += '\n';
+
+        double divideBy = 3.14159;
+        //draw the sides of the polygon
+        for (int i=0; i<numSides; ++i)
+        {
+            std::ostringstream outo;
+            string outs;
+            double step1 = sin((((2*i)+1)*divideBy)/numSides);
+            double step2 = sin(divideBy/numSides);
+            double step3 = cos((((2*i)+1)*divideBy)/numSides);
+            double xcord = (myLength/2) * (step1/step2);
+            double ycord = -(myLength/2) * (step3/step2);
+
+            outo << xcord;
+            outo << " ";
+            outs = outo.str();
+            drawPolygon += outs;
+
+            outo.str("");
+            outo << ycord;
+            if (i == 0)
+            {
+                outo << " newpath moveto";
+            }
+            else
+            {
+                outo << " lineto";
+            }
+
+            outs = outo.str();
+            drawPolygon += outs;
+            drawPolygon += '\n';
+
+        }
+
+        drawPolygon += "closepath";
+        drawPolygon += '\n';
+        drawPolygon += "0 setgray";
+        drawPolygon += '\n';
+        drawPolygon += "stroke";
+        drawPolygon += '\n';
+        return drawPolygon;
+
+	}
 	point center()
-	{}
+	{
+        point cent(0,0);
+		return cent;
+
+	}
 	~Polygon() {}
 private:
-	int sides;
-	string length;
+	int numSides;
+	double myLength;
+	double height;
+	double width;
 };
 
 class Spacer : public Shape
@@ -297,7 +378,7 @@ public:
 		converter << ang;
 		angle = converter.str();
 		passed_shape = shape->draw();
-	}	
+	}
 	string draw()
 	{
 		string start = "gsave ";
@@ -322,7 +403,7 @@ public:
 	Scaler(double scale, Shape * shape): shp(shape), scl(scale)
 	{
 		ostringstream convert;
-		convert << scale; 
+		convert << scale;
 		scale_str = convert.str();
 	}
 	string draw()

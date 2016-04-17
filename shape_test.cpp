@@ -27,6 +27,10 @@ int main()
 	Rotater r4(15, &tri1);
 	d1 << r4.draw();
 
+	// Polygon
+	Polygon r5(5,inch(2));
+    d1 << r5.draw();
+
 	//Scaler
 	Scaler s1(2, &r2);
 	d1 << s1.draw();
