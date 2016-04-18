@@ -27,7 +27,7 @@ int main()
 	d1 << r4.draw();
 
 	// Polygon
-	Polygon p1(5,inch(2));
+	Polygon p1(3,inch(2));
     d1 << p1.draw();
 
 	//Scaler
@@ -38,9 +38,15 @@ int main()
 	d1 << c1.draw();
 
 	//Layered
-	d1 << setOrigin(0, 0);
-	Layered l1 = { &c1,&squa1,&p1,&tri1 };
+	d1 << setOrigin(inch(3), inch(3));
+	Rotater r5(90, &p1);
+	Layered l1 = { &c1,&squa1,&p1,&tri1,&r5};
+	Rotater r6(90, &l1);
+
+	d1 << setOrigin(inch(3), inch(6));
+	Layered l2 = { &l1,&r6 };
 	d1 << l1.draw();
+	d1 << l2.draw();
 	d1.endPage();
 	d1.print();
 	return 0;

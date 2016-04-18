@@ -17,6 +17,7 @@ using std::ostringstream;
 using std::ofstream;
 using std::vector;
 using std::initializer_list;
+using std::to_string;
 
 ////////////////////////////
 //General Library Functions
@@ -224,8 +225,8 @@ public:
 		height = (in_side / 2)*sqrt(3);
 		halfSide = in_side / 2;
 
-		hght = std::to_string(height);
-		halfS = std::to_string(halfSide);
+		hght = to_string(height);
+		halfS = to_string(halfSide);
 
 		// bounding box here
 	}
@@ -233,9 +234,10 @@ public:
 	{
 		string leftSlant = halfS + " " + hght + " rlineto ";
 		string rightSlant = halfS + " -" + hght + " rlineto ";
+		string origin_offset = "-" + to_string(edge / 2) + " -" + to_string(height/3);
 
 		// temporary moveto point 350 250
-		return " newpath 350 250 moveto " + leftSlant + rightSlant + "closepath stroke \n";
+		return " newpath " +origin_offset+ " moveto " + leftSlant + rightSlant + "closepath stroke \n";
 	}
 	point center()
 	{
