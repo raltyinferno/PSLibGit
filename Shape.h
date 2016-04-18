@@ -236,7 +236,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(wdth, 0, hght, 0);	
+		BoundingBox Bbox(wdth/2,-wdth/2,hght/2,-hght/2);	
 		return Bbox;
 	}
 	~Rectangle() {}
@@ -428,7 +428,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(wdth, 0, hght, 0);
+		BoundingBox Bbox(wdth / 2, -wdth / 2, hght / 2, -hght / 2);
 		return Bbox;
 	}
 	~Spacer() {}
