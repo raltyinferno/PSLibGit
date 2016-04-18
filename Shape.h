@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
-#include <string.h>
+#include <string>
 using std::cout;
 using std::endl;
 using std::string;
@@ -142,11 +142,13 @@ class Square : public Shape
 public:
 	Square(double in_side) : edge(in_side)
 	{
-		ostringstream converterS;
+		ostringstream converterS,convert;
 		converterS << in_side;
 
 		side = converterS.str();
-
+		double origin_offset = in_side / 2;
+		convert << "-" << origin_offset;
+		origin = convert.str()+" " + convert.str();
 		// bounding box here
 	}
 	string draw()
@@ -156,7 +158,7 @@ public:
 		string rightSide = "0 -" + side + " rlineto ";
 
 		// temporary moveto point 400 250
-		return "newpath " +(edge/-2)+" "+ (edge/-2)+" rmoveto " + leftSide + topSide + rightSide + "closepath stroke \n";
+		return "newpath " +origin+" moveto " + leftSide + topSide + rightSide + "closepath stroke \n";
 	}
 	point center()
 	{
@@ -166,6 +168,7 @@ public:
 	~Square() {}
 private:
 	double edge;
+	string origin;
 	string side;
 };
 
