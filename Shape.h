@@ -75,15 +75,17 @@ private:
 //Abstract Classes
 class Shape
 {
-
+public:
 	struct BoundingBox
 	{
-		float xTop;
-		float xBottom;
+		BoundingBox(double x_right, double x_left, double y_top, double y_bot) :xRight(x_right), xLeft(x_left), yTop(y_top), yBottom(y_bot)
+		{}
+		float xRight;
+		float xLeft;
 		float yTop;
 		float yBottom;
 	};
-public:
+
 	struct point
 	{
 		point(double inp_x, double inp_y):x(inp_x),y(inp_y)
@@ -96,6 +98,7 @@ public:
 	//Methods
 	virtual string draw() = 0;
 	virtual point center() = 0;
+	virtual BoundingBox bounds() = 0;
 };
 
 class Decorator : public Shape
@@ -137,6 +140,11 @@ public:
 		point cent(radi, radi);
 		return cent;
 	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
+	}
 	~Circle() {}
 private:
 	double radi;
@@ -172,6 +180,11 @@ public:
 		point cent(edge / 2, edge / 2);
 		return cent;
 	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
+	}
 	~Square() {}
 private:
 	double edge;
@@ -193,7 +206,19 @@ public:
 		height = converterH.str();
 		width = converterW.str();
 
+
+		ostringstream converterO_x;
+		ostringstream converterO_y;
+
+		double origin_x = in_width / 2;
+		double origin_y = in_height / 2;
+		converterO_x << origin_x;
+		converterO_y << origin_y;
+		origin = "-" + converterO_x.str() + " " + "-" + converterO_y.str();
+
 		//bounding box set-up here.
+		
+		
 	}
 	string draw()
 	{
@@ -202,17 +227,23 @@ public:
 		string rightside = "0 -" + height + " rlineto ";
 
 		//temporary auto-moveto to point 144 144 until implementation is finalized.
-		return " newpath 144 144 moveto " + leftside + topside + rightside + "closepath stroke \n";
+		return " newpath " + origin + " moveto " + leftside + topside + rightside + "closepath stroke \n";
 	}
 	point center()
 	{
 		point cent(wdth / 2, hght / 2);
 		return cent;
 	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(wdth, 0, hght, 0);	
+		return Bbox;
+	}
 	~Rectangle() {}
 private:
 	double wdth;
 	double hght;
+	string origin;
 	string height;
 	string width;
 };
@@ -243,6 +274,11 @@ public:
 	{
 		point cent((sqrt(3) / 6)*edge, edge / 2);
 		return cent;
+	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
 	}
 	~Triangle() {}
 private:
@@ -340,6 +376,11 @@ public:
 		return cent;
 
 	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
+	}
 	~Polygon() {}
 private:
 	int numSides;
@@ -351,7 +392,7 @@ private:
 class Spacer : public Shape
 {
 public:
-	Spacer(double in_height, double in_width)
+	Spacer(double in_height, double in_width) : wdth(in_width), hght(in_height)
 	{
 		ostringstream converterH;
 		converterH << in_height;
@@ -362,17 +403,39 @@ public:
 		height = converterH.str();
 		width = converterW.str();
 
+		ostringstream converterO_x;
+		ostringstream converterO_y;
+
+		double origin_x = in_width / 2;
+		double origin_y = in_height / 2;
+		converterO_x << origin_x;
+		converterO_y << origin_y;
+		origin = "-" + converterO_x.str() + " " + "-" + converterO_y.str();
+
 		// As nothing is actually drawn, this should only
 		// create a bounding box instead using height/width.
+
+		
 	}
 	string draw()
 	{
 		return "";
 	}
 	point center()
-	{}
+	{
+		point cent(wdth / 2, hght / 2);
+		return cent;
+	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(wdth, 0, hght, 0);
+		return Bbox;
+	}
 	~Spacer() {}
 private:
+	double wdth;
+	double hght;
+	string origin;
 	string height;
 	string width;
 };
@@ -400,6 +463,11 @@ public:
 	{
 		return shp->center();
 	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
+	}
 	~Rotater() {}
 private:
 	Shape * shp;
@@ -424,6 +492,11 @@ public:
 	{
 		point cent(shp->center().x*scl, shp->center().y*scl);
 		return cent;
+	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
 	}
 	~Scaler() {}
 private:
@@ -452,6 +525,11 @@ public:
 	{
 		point cent(0, 0);
 		return cent;
+	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
 	}
 	~Layered() {}
 private:

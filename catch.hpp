@@ -10202,30 +10202,70 @@ namespace Catch {
 int main (int argc, char * argv[]) 
 {
 
-		Document d1("document_unit_test.ps");
-		d1 << (setOrigin(inch(2), 36));
-		//Circle
-		Circle c1(inch(2));
-		Rotater r1(45, &c1);
-		d1 << r1.draw();
+	Document d1("document_unit_test.ps");
 
-		//Rectangle
+	d1 << setOrigin(inch(2), inch(2));
+	//Circle
+	Circle c1(inch(2));
+	Rotater r1(45, &c1);
+	d1 << r1.draw();
+
+	d1.endPage();
+
+	d1 << setOrigin(inch(3), inch(3));
+	//Rectangle
+	class Rectangle rect1(inch(2), inch(4));
+	Rotater r2(0, &rect1);
+	d1 << r2.draw();
+
+	d1.endPage();
+
+	d1 << setOrigin(inch(2), inch(4));
+	// Square
+	Square squa1(inch(1.5));
+	Rotater r3(45, &squa1);
+	d1 << r3.draw();
+
+	d1.endPage();
 
 
-		class Rectangle rect1(inch(2), inch(3));
-		Rotater r2(45, &rect1);
-		d1 << r2.draw();
+	// Triangle
+	Triangle tri1(inch(2.3));
+	Rotater r4(15, &tri1);
+	d1 << r4.draw();
 
-		//Scaler
-		Scaler s1(2, &r2);
-		d1 << s1.draw();
-		d1 << c1.draw();
-		d1.endPage();
-		d1.print();
+	d1.endPage();
 
-		//system("pause");
-		//return 0;
-		return Catch::Session().run( argc, argv );
+	// Polygon
+	class Polygon p1(3, inch(2));
+	d1 << p1.draw();
+
+	d1.endPage();
+
+	//Scaler
+	Scaler s1(2, &r2);
+	d1 << s1.draw();
+	Scaler s2(0.7, &tri1);
+	d1 << s2.draw();
+	d1 << c1.draw();
+
+	d1.endPage();
+
+	//Layered
+	d1 << setOrigin(inch(3), inch(3));
+	Rotater r5(90, &p1);
+	Layered l1 = { &c1,&squa1,&p1,&tri1,&r5 };
+	Rotater r6(90, &l1);
+
+	d1 << setOrigin(inch(3), inch(6));
+	Layered l2 = { &l1,&r6 };
+	d1 << l1.draw();
+	d1 << l2.draw();
+	d1.endPage();
+	d1.print();
+	//return 0;
+
+	return Catch::Session().run( argc, argv );
 }
 
 #else // __OBJC__
