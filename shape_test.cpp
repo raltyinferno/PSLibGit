@@ -47,6 +47,11 @@ int main()
 	Layered l2 = { &l1,&r6 };
 	d1 << l1.draw();
 	d1 << l2.draw();
+
+	//Horizontal
+	Horizontal h1 = { &c1,&squa1,&p1,&tri1,&r5 };
+	d1 << setOrigin(inch(-3), 0);
+	d1 << h1.draw();
 	d1.endPage();
 	d1.print();
 	return 0;

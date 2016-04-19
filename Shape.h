@@ -537,4 +537,36 @@ private:
 	vector<Shape*> shapes;
 };
 
+class Horizontal : public Shape
+{
+public:
+	Horizontal(initializer_list<Shape*> init_list) : shapes(init_list) {}
+
+	string draw()
+	{
+		for (Shape* & shape: shapes)
+		{
+			setOrigin(shape->bounds().xLeft, 0);
+			shape->draw();
+			setOrigin(shape->bounds().xRight, 0);
+		}
+	}
+	point center()
+	{
+		point cent(0, 0);
+		return cent;
+	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
+	}
+
+	~Horizontal() {}
+
+
+private:
+	vector<Shape*> shapes;
+};
+
 #endif
