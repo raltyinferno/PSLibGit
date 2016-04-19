@@ -2,6 +2,9 @@ Design Document:
 Shape Project
 CS 372
 4/18/16
+	The C++ language is used for this project
+	When using the shape header file, a readily executable postscript file can be output
+	
 	Hierarchy:
 		The types of shapes are:
 		Circle, Square, Polygon, Rectangle, Spacer, Triangle, Decorator, Custom and Compound
@@ -10,5 +13,6 @@ CS 372
 		Rotated or Scaled
 
 		Compound shapes can be created as:
-		Layered, Verticle or Hrizontal
-	
+		Layered, Vertical or Horizontal
+
+
