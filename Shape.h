@@ -471,7 +471,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(xCoor + 216, xCoor, yCoor + 273, yCoor);
+		BoundingBox Bbox(xCoor + 110, xCoor + 109, yCoor + 136, yCoor + 140);
 		return Bbox;
 	}
 	~Nice() {}
