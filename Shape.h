@@ -61,14 +61,21 @@ public:
 	void endPage()
 	{
 		file << "showpage \n";
+		testfile << "showpage \n";
 	}
 	Document & operator <<(const string & str)
 	{
 		this->file << str << endl;
+		this->testfile << str << endl;
 		return *this;
+	}
+	string getFile()
+	{
+		return testfile.str();
 	}
 private:
 	ofstream file;
+	ostringstream testfile;
 };
 
 ///////////////////
@@ -504,7 +511,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(0, 0, 0, 0);
+		BoundingBox Bbox(shp->bounds().xRight * scl, shp->bounds().xLeft * scl, shp->bounds().yTop * scl, shp->bounds().yBottom * scl);
 		return Bbox;
 	}
 	~Scaler() {}
@@ -537,7 +544,34 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(0, 0, 0, 0);
+		float smallest_x = shapes[0]->bounds().xLeft;
+		float smallest_y = shapes[0]->bounds().yBottom;
+		float greatest_x = shapes[0]->bounds().xRight;
+		float greatest_y = shapes[0]->bounds().yTop;
+
+
+		for (int i = 1; i < shapes.size(); i++)
+		{
+			if (shapes[i]->bounds().xLeft < smallest_x)
+			{
+				smallest_x = shapes[i]->bounds().xLeft;
+			}
+			if (shapes[i]->bounds().xRight > greatest_x)
+			{
+				greatest_x = shapes[i]->bounds().xRight;
+			}
+			if (shapes[i]->bounds().yBottom < smallest_y)
+			{
+				smallest_y = shapes[i]->bounds().yBottom;
+			}
+			if (shapes[i]->bounds().yTop > greatest_y)
+			{
+				greatest_y = shapes[i]->bounds().yTop;
+			}
+
+		}
+
+		BoundingBox Bbox(greatest_x,smallest_x,greatest_y,smallest_y);
 		return Bbox;
 	}
 	~Layered() {}
