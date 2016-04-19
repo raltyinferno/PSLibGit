@@ -339,36 +339,7 @@ public:
             double xcord = (myLength/2) * (step1/step2);
             double ycord = -(myLength/2) * (step3/step2);
 
-			//bounding box calculations
-			if (i == 0)
-			{
-				smallest_x = xcord;
-				smallest_y = ycord;
-				greatest_x = xcord;
-				greatest_y = ycord;
-			}
-			else
-			{
-				if (xcord < smallest_x)
-				{
-					smallest_x = xcord;
-				}
 
-				if (xcord > greatest_x)
-				{
-					greatest_x = xcord;
-				}
-
-				if (ycord < smallest_y)
-				{
-					smallest_y = ycord;
-				}
-
-				if (ycord > greatest_y)
-				{
-					greatest_y = ycord;
-				}
-			}
 
 
 
@@ -411,7 +382,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(greatest_x, smallest_x, greatest_y, smallest_y);
+		BoundingBox Bbox(width/2, -width/2, height/2, -height/2);
 		return Bbox;
 	}
 	~Polygon() {}
