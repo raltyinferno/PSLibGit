@@ -27,7 +27,7 @@ int main()
 	d1 << r4.draw();
 
 	// Polygon
-	Polygon p1(3,inch(2));
+	Polygon p1(5,inch(2));
     d1 << p1.draw();
 
 	//Scaler
@@ -50,7 +50,7 @@ int main()
 
 	//Horizontal
 	Horizontal h1 = { &c1,&squa1,&p1,&tri1,&r5 };
-	d1 << setOrigin(inch(-3), 0);
+	d1 << setOrigin(inch(-3), inch(-4));
 	d1 << h1.draw();
 	d1.endPage();
 	d1.print();

@@ -544,12 +544,14 @@ public:
 
 	string draw()
 	{
+		string draw_str = setOrigin(-(shapes[1]->bounds().xLeft),0);
 		for (Shape* & shape: shapes)
 		{
-			setOrigin(shape->bounds().xLeft, 0);
-			shape->draw();
-			setOrigin(shape->bounds().xRight, 0);
+			draw_str+=setOrigin(shape->bounds().xLeft, 0);
+			draw_str += shape->draw();
+			draw_str += setOrigin(shape->bounds().xRight, 0);
 		}
+		return draw_str;
 	}
 	point center()
 	{
