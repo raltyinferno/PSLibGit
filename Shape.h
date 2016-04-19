@@ -142,7 +142,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(0, 0, 0, 0);
+		BoundingBox Bbox(radi,-radi , radi, -radi);
 		return Bbox;
 	}
 	~Circle() {}
@@ -182,7 +182,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(0, 0, 0, 0);
+		BoundingBox Bbox(edge/2, -edge/2, edge/2, -edge/2);
 		return Bbox;
 	}
 	~Square() {}
@@ -277,7 +277,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(0, 0, 0, 0);
+		BoundingBox Bbox(halfSide, -halfSide, height/2, -height/2);
 		return Bbox;
 	}
 	~Triangle() {}
@@ -339,6 +339,39 @@ public:
             double xcord = (myLength/2) * (step1/step2);
             double ycord = -(myLength/2) * (step3/step2);
 
+			//bounding box calculations
+			if (i == 0)
+			{
+				smallest_x = xcord;
+				smallest_y = ycord;
+				greatest_x = xcord;
+				greatest_y = ycord;
+			}
+			else
+			{
+				if (xcord < smallest_x)
+				{
+					smallest_x = xcord;
+				}
+
+				if (xcord > greatest_x)
+				{
+					greatest_x = xcord;
+				}
+
+				if (ycord < smallest_y)
+				{
+					smallest_y = ycord;
+				}
+
+				if (ycord > greatest_y)
+				{
+					greatest_y = ycord;
+				}
+			}
+
+
+
             outo << xcord;
             outo << " ";
             outs = outo.str();
@@ -378,7 +411,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(0, 0, 0, 0);
+		BoundingBox Bbox(greatest_x, smallest_x, greatest_y, smallest_y);
 		return Bbox;
 	}
 	~Polygon() {}
@@ -387,6 +420,11 @@ private:
 	double myLength;
 	double height;
 	double width;
+
+	double smallest_x;
+	double smallest_y;
+	double greatest_x;
+	double greatest_y;
 };
 
 class Spacer : public Shape
