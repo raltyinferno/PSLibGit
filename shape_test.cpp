@@ -74,15 +74,15 @@ int main()
 	
 	d1.endPage();
 
-	d1 << setOrigin(inch(3), inch(5));
+	d1 << setOrigin(inch(3), inch(7));
 
 	d1 << tri1.draw();//drawn at origin
 
 
 	Nice n2(inch(0), inch(0));
 	Scaler s57(.5,.5, &n2);
-	Horizontal h69 = { &s57, &s57, &s57 };
-	Vertical v20 = { &h69, &h69 , &h69};
+	Horizontal h69 = { &s57, &p1, &s57 };
+	Vertical v20 = { &h69, &l1, &h69, &l1};
 	d1 << v20.draw();
 
 	d1.endPage();
