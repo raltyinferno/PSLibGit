@@ -142,7 +142,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(radi,-radi , radi, -radi);
+		BoundingBox Bbox(radi,-radi , radi, radi);
 		return Bbox;
 	}
 	~Circle() {}
@@ -182,7 +182,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(edge/2, -edge/2, edge/2, -edge/2);
+		BoundingBox Bbox(edge/2, edge/2, edge/2, edge/2);
 		return Bbox;
 	}
 	~Square() {}
@@ -236,7 +236,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(wdth/2,-wdth/2,hght/2,-hght/2);	
+		BoundingBox Bbox(wdth/2,wdth/2,hght/2,hght/2);	
 		return Bbox;
 	}
 	~Rectangle() {}
@@ -277,7 +277,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(halfSide, -halfSide, height/2, -height/2);
+		BoundingBox Bbox(halfSide, halfSide, height/2, height/2);
 		return Bbox;
 	}
 	~Triangle() {}
@@ -382,7 +382,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(width/2, -width/2, height/2, -height/2);
+		BoundingBox Bbox(width/2, width/2, height/2, height/2);
 		return Bbox;
 	}
 	~Polygon() {}
@@ -437,7 +437,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(wdth / 2, -wdth / 2, hght / 2, -hght / 2);
+		BoundingBox Bbox(wdth / 2, wdth / 2, hght / 2, hght / 2);
 		return Bbox;
 	}
 	~Spacer() {}
@@ -553,7 +553,7 @@ public:
 
 	string draw()
 	{
-		string draw_str = setOrigin(-(shapes[1]->bounds().xLeft),0);
+		string draw_str = setOrigin(-(shapes[0]->bounds().xLeft),0);
 		for (Shape* & shape: shapes)
 		{
 			draw_str+=setOrigin(shape->bounds().xLeft, 0);

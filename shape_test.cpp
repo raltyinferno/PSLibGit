@@ -7,27 +7,27 @@ int main()
 {
 	Document d1("document_test.ps");
 	//Circle
-	Circle c1(inch(2));
+	Circle c1(inch(.5));
 	Rotater r1(45,&c1);;
 	d1 << r1.draw();
 
 	//Rectangle
-	Rectangle rect1(inch(2), inch(3));
+	Rectangle rect1(inch(1), inch(.5));
 	Rotater r2(45, &rect1);
 	d1 << r2.draw();
 
 	// Square
-	Square squa1(inch(1.5));
+	Square squa1(inch(.5));
 	Rotater r3(45, &squa1);
 	d1 << r3.draw();
 
 	// Triangle
-	Triangle tri1(inch(2.3));
+	Triangle tri1(inch(.5));
 	Rotater r4(15, &tri1);
 	d1 << r4.draw();
 
 	// Polygon
-	Polygon p1(5,inch(2));
+	Polygon p1(10,inch(1));
     d1 << p1.draw();
 
 	//Scaler
@@ -49,7 +49,7 @@ int main()
 	d1 << l2.draw();
 
 	//Horizontal
-	Horizontal h1 = { &c1,&squa1,&p1,&tri1,&r5 };
+	Horizontal h1 = { &c1,&squa1,&p1,&tri1 };
 	d1 << setOrigin(inch(-3), inch(-4));
 	d1 << h1.draw();
 	d1.endPage();
