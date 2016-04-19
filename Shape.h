@@ -420,8 +420,8 @@ public:
 		horiz = converterX.str();
 		vert = converterY.str();
 
-		adjustX = in_x;// -172;
-		adjustY = in_y;// -471;
+		adjustX = in_x - 23;
+		adjustY = in_y - 64;
 
 		origin = to_string(adjustX) + " " + to_string(adjustY);
 	}
@@ -471,7 +471,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(xCoor + 216, xCoor, yCoor + 471, yCoor);
+		BoundingBox Bbox(xCoor + 216, xCoor, yCoor + 273, yCoor);
 		return Bbox;
 	}
 	~Nice() {}
