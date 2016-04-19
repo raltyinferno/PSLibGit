@@ -6,6 +6,7 @@ using std::endl;
 int main()
 {
 	Document d1("document_test.ps");
+
 	//Circle
 	Circle c1(inch(.5));
 	Rotater r1(45,&c1);;
@@ -22,8 +23,8 @@ int main()
 	d1 << r3.draw();
 
 	// Nice
-	Nice n1(250, 725);
-	//d1 << n1.draw();
+	Nice n1(inch(0), inch(0));
+	d1 << n1.draw();
 
 	// Triangle
 	Triangle tri1(inch(.5));
@@ -49,8 +50,8 @@ int main()
 
 	d1 << setOrigin(inch(1), inch(6));
 	Layered l2 = { &l1,&r6 };
-	//d1 << l1.draw();
-	//d1 << l2.draw();
+	d1 << l1.draw();
+	d1 << l2.draw();
 
 	//Spacer
 	Spacer sp1(inch(.5), inch(1));
@@ -59,31 +60,29 @@ int main()
 	Horizontal h1 = { &c1,&squa1,&p1,&tri1 };
 	Horizontal h2 = { &l1 ,&l1 ,&sp1 ,&l1 ,&l1 };
 	d1 << setOrigin(inch(-3), inch(-4));
-	//d1 << h2.draw();
+	d1 << h2.draw();
 
 	//Vertical
 	Vertical v1 = { &l1 ,&l1 ,&l1 ,&l1 ,&l1 };
 	Vertical v2 = { &c1 ,&c1 ,&c1 ,&c1 ,&c1 };
 	Scaler s3(.5, 2, &h2);
 	Vertical v3 = { &h1,&h1 };
-	//d1 << tri1.draw();
-	//d1 << v3.draw();
+	d1 << tri1.draw();
+	d1 << v3.draw();
 	Rotater r70(90, &tri1);
-	//d1 << r70.draw();
+	d1 << r70.draw();
+	
 	d1.endPage();
 
-	d1 << setOrigin(inch(3), inch(3));
+	d1 << setOrigin(inch(3), inch(5));
 
 	d1 << tri1.draw();//drawn at origin
 
 
-	Nice n2(0, 0);
-
+	Nice n2(inch(0), inch(0));
 	Scaler s57(.5,.5, &n2);
-
 	Horizontal h69 = { &s57, &s57, &s57 };
-
-	Vertical v20 = { &h69, &h69 };
+	Vertical v20 = { &h69, &h69 , &h69};
 	d1 << v20.draw();
 
 	d1.endPage();
