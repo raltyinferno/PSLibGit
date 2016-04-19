@@ -21,6 +21,10 @@ int main()
 	Rotater r3(45, &squa1);
 	d1 << r3.draw();
 
+	// Nice
+	Nice n1(250, 725);
+	d1 << n1.draw();
+
 	// Triangle
 	Triangle tri1(inch(.5));
 	Rotater r4(15, &tri1);
