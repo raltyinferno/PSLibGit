@@ -408,6 +408,80 @@ private:
 	double greatest_y;
 };
 
+class Nice : public Shape
+{
+public:
+	Nice(double in_x, double in_y) : xCoor(in_x), yCoor(in_y)
+	{
+		ostringstream converterX, converterY, convert;
+		converterX << in_x;
+		converterY << in_y;
+
+		horiz = converterX.str();
+		vert = converterY.str();
+
+		adjustX = in_x - 86;
+		adjustY = in_y - 235.5;
+
+		origin = to_string(adjustX) + " " + to_string(adjustY);
+	}
+	string draw()
+	{
+		x1 = adjustX - 28 - 84.25;
+		x2 = adjustX + 243 - 84.25;
+		x3 = adjustX + 643 - 84.25;
+		x4 = adjustX - 427 - 84.25;
+		x5 = adjustX + 108 - 84.25;
+		x6 = adjustX + 108 - 84.25;
+		x7 = adjustX + 108 - 84.25;
+		x8 = adjustX + 108 - 84.25;
+
+		y1 = adjustY + 29 - 62;
+		y2 = adjustY + 29 - 62;
+		y3 = adjustY + 424 - 62;
+		y4 = adjustY + 424 - 62;
+		y5 = adjustY + 164 - 62;
+		y6 = adjustY + 164 - 62;
+		y7 = adjustY - 106 - 62;
+		y8 = adjustY + 164 - 62;
+
+		string curve1 = to_string(x1) + " " + to_string(y1) + " 117 14.5 -285 arc stroke"; // upmidleft
+		string curve2 = to_string(x2) + " " + to_string(y2) + " 117 -255.5 -194.5 arc stroke"; // upmidrigt
+
+		string curve3 = to_string(x3) + " " + to_string(y3) + " 700 208 217.3 arc stroke"; // left low
+		string curve4 = to_string(x4) + " " + to_string(y4) + " 700 322.7 332 arc stroke"; // right low
+
+		string curve5 = to_string(x5) + " " + to_string(y5) + " 108 220 257.5 arc stroke"; // lowmidleft
+		string curve6 = to_string(x6) + " " + to_string(y6) + " 108 281.5 320 arc stroke"; // lomidright
+
+		string curve7 = to_string(x7) + " " + to_string(y7) + " 108 78 102 arc stroke"; // lower overarc
+		string curve8 = to_string(x8) + " " + to_string(y8) + " 108 -12 192 arc stroke"; // upper overarc
+
+		string upMid = curve1 + "\n" + curve2 + "\n";
+		string low = curve3 + "\n" + curve4 + "\n";
+		string lowMid = curve5 + "\n" + curve6 + "\n";
+		string overArc = curve7 + "\n" + curve8 + "\n";
+
+		return "newpath " + origin + " moveto\n" + upMid + low + lowMid + overArc + "closepath \n";
+	}
+	point center()
+	{
+		point cent(adjustX, adjustY);
+		return cent;
+	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(xCoor + 216, xCoor, yCoor + 471, yCoor);
+		return Bbox;
+	}
+	~Nice() {}
+private:
+	double xCoor, yCoor, adjustX, adjustY;
+	double x1, x2, x3, x4, x5, x6, x7, x8;
+	double y1, y2, y3, y4, y5, y6, y7, y8;
+	string origin, horiz, vert;
+};
+
 class Spacer : public Shape
 {
 public:
