@@ -31,31 +31,41 @@ int main()
     d1 << p1.draw();
 
 	//Scaler
-	Scaler s1(2, &r2);
+	Scaler s1(2,2, &r2);
 	d1 << s1.draw();
-	Scaler s2(0.7, &tri1);
+	Scaler s2(0.7,2, &tri1);
 	d1 << s2.draw();
 	d1 << c1.draw();
 
 	//Layered
 	d1 << setOrigin(inch(3), inch(3));
 	Rotater r5(90, &p1);
-	Layered l1 = { &c1,&squa1,&p1,&tri1,&r5};
+	Layered l1 = { &c1,&squa1,&p1,&tri1};
 	Rotater r6(90, &l1);
 
-	d1 << setOrigin(inch(3), inch(6));
+	d1 << setOrigin(inch(1), inch(6));
 	Layered l2 = { &l1,&r6 };
-	d1 << l1.draw();
-	d1 << l2.draw();
+	//d1 << l1.draw();
+	//d1 << l2.draw();
+
+	//Spacer
+	Spacer sp1(inch(.5), inch(1));
 
 	//Horizontal
 	Horizontal h1 = { &c1,&squa1,&p1,&tri1 };
+	Horizontal h2 = { &l1 ,&l1 ,&sp1 ,&l1 ,&l1 };
 	d1 << setOrigin(inch(-3), inch(-4));
-	d1 << h1.draw();
+	//d1 << h2.draw();
 
 	//Vertical
-	Vertical v1 = { &c1,&squa1,&p1,&tri1 };
-	d1 << v1.draw();
+	Vertical v1 = { &l1 ,&l1 ,&l1 ,&l1 ,&l1 };
+	Vertical v2 = { &c1 ,&c1 ,&c1 ,&c1 ,&c1 };
+	Scaler s3(.5, 2, &h2);
+	Vertical v3 = { &h1,&h1 };
+	d1 << tri1.draw();
+	d1 << v3.draw();
+	Rotater r70(90, &tri1);
+	d1 << r70.draw();
 	d1.endPage();
 	d1.print();
 	return 0;

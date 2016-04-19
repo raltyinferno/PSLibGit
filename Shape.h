@@ -149,7 +149,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(radi,-radi , radi, radi);
+		BoundingBox Bbox(radi,radi , radi, radi);
 		return Bbox;
 	}
 	~Circle() {}
@@ -494,31 +494,32 @@ private:
 class Scaler : public Decorator
 {
 public:
-	Scaler(double scale, Shape * shape): shp(shape), scl(scale)
+	Scaler(double scalex, double scaley, Shape * shape): shp(shape), sclx(scalex), scly(scaley)
 	{
-		ostringstream convert;
-		convert << scale;
-		scale_str = convert.str();
+		scalex_str = to_string(sclx);
+		scaley_str = to_string(scly);
 	}
 	string draw()
 	{
-		return "gsave " + scale_str + " " + scale_str + " scale \n \t" + shp->draw() +"grestore \n";
+		return "gsave " + scalex_str + " " + scaley_str + " scale \n \t" + shp->draw() +"grestore \n";
 	}
 	point center()
 	{
-		point cent(shp->center().x*scl, shp->center().y*scl);
+		point cent(shp->center().x*sclx, shp->center().y*scly);
 		return cent;
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(shp->bounds().xRight * scl, shp->bounds().xLeft * scl, shp->bounds().yTop * scl, shp->bounds().yBottom * scl);
+		BoundingBox Bbox(shp->bounds().xRight * sclx, shp->bounds().xLeft * sclx, shp->bounds().yTop * scly, shp->bounds().yBottom * scly);
 		return Bbox;
 	}
 	~Scaler() {}
 private:
 	Shape * shp;
-	double scl;
-	string scale_str;
+	double sclx;
+	double scly;
+	string scalex_str;
+	string scaley_str;
 };
 
 ///////////////////////////
@@ -550,9 +551,9 @@ public:
 		float greatest_y = shapes[0]->bounds().yTop;
 
 
-		for (int i = 1; i < shapes.size(); i++)
+		for (int i = 0; i < shapes.size(); i++)
 		{
-			if (shapes[i]->bounds().xLeft < smallest_x)
+			if (shapes[i]->bounds().xLeft > smallest_x)
 			{
 				smallest_x = shapes[i]->bounds().xLeft;
 			}
@@ -560,7 +561,7 @@ public:
 			{
 				greatest_x = shapes[i]->bounds().xRight;
 			}
-			if (shapes[i]->bounds().yBottom < smallest_y)
+			if (shapes[i]->bounds().yBottom > smallest_y)
 			{
 				smallest_y = shapes[i]->bounds().yBottom;
 			}
@@ -583,17 +584,25 @@ private:
 class Horizontal : public Shape
 {
 public:
-	Horizontal(initializer_list<Shape*> init_list) : shapes(init_list) {}
+	Horizontal(initializer_list<Shape*> init_list) : shapes(init_list) 
+	{
+		
+	}
 
 	string draw()
 	{
+		double offset = -(shapes[0]->bounds().xLeft);
+
 		string draw_str = setOrigin(-(shapes[0]->bounds().xLeft),0);
 		for (Shape* & shape: shapes)
 		{
 			draw_str+=setOrigin(shape->bounds().xLeft, 0);
 			draw_str += shape->draw();
 			draw_str += setOrigin(shape->bounds().xRight, 0);
+			offset += shape->bounds().xLeft;
+			offset += shape->bounds().xRight;
 		}
+		draw_str += setOrigin(-offset, 0);
 		return draw_str;
 	}
 	point center()
@@ -603,7 +612,21 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(0, 0, 0, 0);
+		double left = 0, right = 0, top = shapes[0]->bounds().yTop, bottom = shapes[0]->bounds().yBottom;
+		for (Shape* & shape : shapes)
+		{
+			left += shape->bounds().xLeft;
+			right += shape->bounds().xRight;
+			if (top < shape->bounds().yTop)
+			{
+				top = shape->bounds().yTop;
+			}
+			if (bottom < shape->bounds().yBottom)
+			{
+				bottom = shape->bounds().yBottom;
+			}
+		}
+		BoundingBox Bbox(left / 2, right / 2, top, bottom);
 		return Bbox;
 	}
 
@@ -621,13 +644,17 @@ public:
 
 	string draw()
 	{
-		string draw_str = setOrigin(0, -(shapes[0]->bounds().yBottom));
+		double offset = (shapes[0]->bounds().yTop);
+		string draw_str = setOrigin(0, (shapes[0]->bounds().yTop));
 		for (Shape* & shape : shapes)
 		{
-			draw_str += setOrigin(0, shape->bounds().yBottom);
+			draw_str += setOrigin(0, -shape->bounds().yTop);
 			draw_str += shape->draw();
-			draw_str += setOrigin(0, shape->bounds().yTop);
+			draw_str += setOrigin(0, -shape->bounds().yBottom);
+			offset += -shape->bounds().yTop;
+			offset += -shape->bounds().yBottom;
 		}
+		draw_str += setOrigin(0, -offset);
 		return draw_str;
 	}
 	point center()
@@ -637,7 +664,14 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(0, 0, 0, 0);
+		double left = shapes[0]->bounds().xLeft, right = shapes[0]->bounds().xRight, top = 0, bottom = 0;
+		for (Shape* & shape : shapes)
+		{
+			top += shape->bounds().yTop;
+			bottom += shape->bounds().yBottom;
+		}
+
+		BoundingBox Bbox(right,left,top/2,bottom/2);
 		return Bbox;
 	}
 
