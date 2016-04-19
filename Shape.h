@@ -224,8 +224,8 @@ public:
 		origin = "-" + converterO_x.str() + " " + "-" + converterO_y.str();
 
 		//bounding box set-up here.
-		
-		
+
+
 	}
 	string draw()
 	{
@@ -243,7 +243,7 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(wdth/2,wdth/2,hght/2,hght/2);	
+		BoundingBox Bbox(wdth/2,wdth/2,hght/2,hght/2);
 		return Bbox;
 	}
 	~Rectangle() {}
@@ -303,6 +303,7 @@ public:
 	{
 	    //calculate the width and height
 	    double pi = 3.14159;
+	    //formula for odd number of sides
         if (sides%2 == 1)
         {
             double step1 = sin((pi*(sides-1))/(2*sides));
@@ -311,7 +312,7 @@ public:
             width = length * (step1/step2);
             height = length * (step3/(2*step2));
         }
-
+        //formula for even number of sides that can be divided by four
         else if (sides%4 == 0)
         {
             double step1 = cos(pi/sides);
@@ -319,6 +320,8 @@ public:
             width = length * (step1/step2);
             height = length * (step1/step2);
         }
+
+        //formula for even number of sides that cannot be divided by four
         else
         {
             double step1 = cos(pi/sides);
@@ -334,15 +337,15 @@ public:
         drawPolygon += "0.5 setlinewidth";
         drawPolygon += '\n';
 
-        double divideBy = 3.14159;
+        double pi = 3.14159;
         //draw the sides of the polygon
         for (int i=0; i<numSides; ++i)
         {
             std::ostringstream outo;
             string outs;
-            double step1 = sin((((2*i)+1)*divideBy)/numSides);
-            double step2 = sin(divideBy/numSides);
-            double step3 = cos((((2*i)+1)*divideBy)/numSides);
+            double step1 = sin((((2*i)+1)*pi)/numSides);
+            double step2 = sin(pi/numSides);
+            double step3 = cos((((2*i)+1)*pi)/numSides);
             double xcord = (myLength/2) * (step1/step2);
             double ycord = -(myLength/2) * (step3/step2);
 
@@ -431,7 +434,7 @@ public:
 		// As nothing is actually drawn, this should only
 		// create a bounding box instead using height/width.
 
-		
+
 	}
 	string draw()
 	{
