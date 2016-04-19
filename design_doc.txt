@@ -1,7 +1,14 @@
-Design:
-
+Design Document:
+Shape Project
+CS 372
+4/18/16
 	Hierarchy:
-		Shape: Circle, Square, Polygon, Rectangle, Spacer, Triangle, Decorator, Compound
-		Decorator: Rotated, Scaled
-		Compound: Layered, Verticle, Hrizontal
+		The types of shapes are:
+		Circle, Square, Polygon, Rectangle, Spacer, Triangle, Decorator, Custom and Compound
+		
+		A Decorator can be used so shapes can be:
+		Rotated or Scaled
+
+		Compound shapes can be created as:
+		Layered, Verticle or Hrizontal
 	
