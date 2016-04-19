@@ -420,8 +420,8 @@ public:
 		horiz = converterX.str();
 		vert = converterY.str();
 
-		adjustX = in_x - 86;
-		adjustY = in_y - 235.5;
+		adjustX = in_x;// -172;
+		adjustY = in_y;// -471;
 
 		origin = to_string(adjustX) + " " + to_string(adjustY);
 	}

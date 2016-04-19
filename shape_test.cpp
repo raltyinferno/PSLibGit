@@ -23,7 +23,7 @@ int main()
 
 	// Nice
 	Nice n1(250, 725);
-	d1 << n1.draw();
+	//d1 << n1.draw();
 
 	// Triangle
 	Triangle tri1(inch(.5));
@@ -66,10 +66,26 @@ int main()
 	Vertical v2 = { &c1 ,&c1 ,&c1 ,&c1 ,&c1 };
 	Scaler s3(.5, 2, &h2);
 	Vertical v3 = { &h1,&h1 };
-	d1 << tri1.draw();
-	d1 << v3.draw();
+	//d1 << tri1.draw();
+	//d1 << v3.draw();
 	Rotater r70(90, &tri1);
-	d1 << r70.draw();
+	//d1 << r70.draw();
+	d1.endPage();
+
+	d1 << setOrigin(inch(3), inch(3));
+
+	d1 << tri1.draw();//drawn at origin
+
+
+	Nice n2(0, 0);
+
+	Scaler s57(.5,.5, &n2);
+
+	Horizontal h69 = { &s57, &s57, &s57 };
+
+	Vertical v20 = { &h69, &h69 };
+	d1 << v20.draw();
+
 	d1.endPage();
 	d1.print();
 	return 0;
