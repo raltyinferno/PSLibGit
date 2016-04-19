@@ -580,4 +580,37 @@ private:
 	vector<Shape*> shapes;
 };
 
+class Vertical : public Shape
+{
+public:
+	Vertical(initializer_list<Shape*> init_list) : shapes(init_list) {}
+
+	string draw()
+	{
+		string draw_str = setOrigin(0, -(shapes[0]->bounds().yBottom));
+		for (Shape* & shape : shapes)
+		{
+			draw_str += setOrigin(0, shape->bounds().yBottom);
+			draw_str += shape->draw();
+			draw_str += setOrigin(0, shape->bounds().yTop);
+		}
+		return draw_str;
+	}
+	point center()
+	{
+		point cent(0, 0);
+		return cent;
+	}
+	BoundingBox bounds()
+	{
+		BoundingBox Bbox(0, 0, 0, 0);
+		return Bbox;
+	}
+
+	~Vertical() {}
+
+
+private:
+	vector<Shape*> shapes;
+};
 #endif
