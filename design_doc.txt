@@ -16,3 +16,6 @@ CS 372
 		Layered, Vertical or Horizontal
 
 
+	Please see the Library Usage Documentation for specific shape design and functionality as well as general library usage.
+
+

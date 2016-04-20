@@ -17,12 +17,12 @@ Basic Shapes
 ex: Circle c1(5)
 creates a circle with radius of 5 units
 
--Square(Sqaure name(edge length))
+-Square(Square name(edge length))
 ex: Square s1(5)
 creates a square with sides of length 5 units
 
--Rectange(Rectange name(height,width))
-ex: Rectange r1(2,3)
+-Rectangle(Rectangle name(height,width))
+ex: Rectangle r1(2,3)
 creates rectangle 2 units high and 3 units wide
 
 -Triangle(Triangle name(edge length))
@@ -39,12 +39,14 @@ creates an alien head thing
 
 -Spacer(Spacer name(height,width))
 ex: Spacer sp1(2,5)
-Draws nothing, but creates an object 2 units high and 5 units wide
+Draws nothing, but creates an object 2 units high and 5 units wide which
+can then be used in stacking.
 
 ----------------
 Modified Shapes
 ----------------
 
+**NOTE: Rotating a shape will not rotate its bounding box which is used for stacking**
 -Rotated Shape(Rotater name(angle, pointer to shape to rotate))
 ex: Rotater rot1(45,&s1)
 Rotates s1 by 45 degrees
@@ -105,6 +107,10 @@ outputted to a postscript file, then you can call getFileString.
 ex: d1.getFileString()
 The above will simply give the postscript that has been written so far.
 
+**Note** If windows libraries, specifically those involving drawing to the screen, or just "windows.h" in
+general are included in your project, then you will need to add the "class" keyword before you create a 
+Rectangle or Polygon as they are functions in the windows libraries.
+ex: class Rectange r1(2,3)
 
 ***************
 Sample Program
