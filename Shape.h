@@ -61,21 +61,21 @@ public:
 	void endPage()
 	{
 		file << "showpage \n";
-		testfile << "showpage \n";
+		filestring << "showpage \n";
 	}
 	Document & operator <<(const string & str)
 	{
 		this->file << str << endl;
-		this->testfile << str << endl;
+		this->filestring << str;
 		return *this;
 	}
-	string getFile()
+	string getFileString()
 	{
-		return testfile.str();
+		return filestring.str();
 	}
 private:
 	ofstream file;
-	ostringstream testfile;
+	ostringstream filestring;
 };
 
 ///////////////////

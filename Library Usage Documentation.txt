@@ -100,6 +100,12 @@ afterwhich you can either keep adding shapes, which will now be on a new page, o
 print function
 ex: d1.print()
 
+If you would like to get the string that is contained within the file as opposed to having it automatically 
+outputted to a postscript file, then you can call getFileString.
+ex: d1.getFileString()
+The above will simply give the postscript that has been written so far.
+
+
 ***************
 Sample Program
 ***************

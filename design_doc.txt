@@ -2,8 +2,8 @@ Design Document:
 Shape Project
 CS 372
 4/18/16
-	The C++ language is used for this project
-	When using the shape header file, a readily executable postscript file can be output
+	The C++ language is used for this project, using the Catch unit testing framework, and using the Decorator Pattern for project design.
+	When using the shape header file, a readily executable postscript file can be outputted, or the total string can be outputted.
 	
 	Hierarchy:
 		The types of shapes are:
