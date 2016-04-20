@@ -411,20 +411,6 @@ private:
 class Nice : public Shape
 {
 public:
-	Nice(double in_x, double in_y) : xCoor(in_x), yCoor(in_y)
-	{
-		ostringstream converterX, converterY, convert;
-		converterX << in_x;
-		converterY << in_y;
-
-		horiz = converterX.str();
-		vert = converterY.str();
-
-		adjustX = in_x - 23;
-		adjustY = in_y - 64;
-
-		origin = to_string(adjustX) + " " + to_string(adjustY);
-	}
 	string draw()
 	{
 		x1 = adjustX - 28 - 84.25;
@@ -462,7 +448,7 @@ public:
 		string lowMid = curve5 + "\n" + curve6 + "\n";
 		string overArc = curve7 + "\n" + curve8 + "\n";
 
-		return "newpath " + origin + " moveto\n" + upMid + low + lowMid + overArc + "closepath \n";
+		return "newpath \n" + upMid + low + lowMid + overArc + "closepath \n";
 	}
 	point center()
 	{
@@ -471,15 +457,14 @@ public:
 	}
 	BoundingBox bounds()
 	{
-		BoundingBox Bbox(xCoor + 110, xCoor + 109, yCoor + 136, yCoor + 140);
+		BoundingBox Bbox(110,109,136, 140);
 		return Bbox;
 	}
 	~Nice() {}
 private:
-	double xCoor, yCoor, adjustX, adjustY;
+	double adjustX= -23, adjustY=-64;
 	double x1, x2, x3, x4, x5, x6, x7, x8;
 	double y1, y2, y3, y4, y5, y6, y7, y8;
-	string origin, horiz, vert;
 };
 
 class Spacer : public Shape
@@ -669,8 +654,10 @@ public:
 	string draw()
 	{
 		double offset = -(shapes[0]->bounds().xLeft);
+		offset += -(this->bounds().xLeft / 2);
 
 		string draw_str = setOrigin(-(shapes[0]->bounds().xLeft),0);
+		draw_str += setOrigin(-(this->bounds().xLeft / 2), 0);
 		for (Shape* & shape: shapes)
 		{
 			draw_str+=setOrigin(shape->bounds().xLeft, 0);
@@ -703,7 +690,7 @@ public:
 				bottom = shape->bounds().yBottom;
 			}
 		}
-		BoundingBox Bbox(left / 2, right / 2, top, bottom);
+		BoundingBox Bbox(left, right, top, bottom);
 		return Bbox;
 	}
 
@@ -722,7 +709,9 @@ public:
 	string draw()
 	{
 		double offset = (shapes[0]->bounds().yTop);
+		offset += (this->bounds().yTop) / 2;
 		string draw_str = setOrigin(0, (shapes[0]->bounds().yTop));
+		draw_str += setOrigin(0, (this->bounds().yTop) / 2);
 		for (Shape* & shape : shapes)
 		{
 			draw_str += setOrigin(0, -shape->bounds().yTop);
@@ -746,9 +735,17 @@ public:
 		{
 			top += shape->bounds().yTop;
 			bottom += shape->bounds().yBottom;
+			if (shape->bounds().xLeft > left)
+			{
+				left = shape->bounds().xLeft;
+			}
+			if (shape->bounds().xRight > right)
+			{
+				right = shape->bounds().xRight;
+			}
 		}
 
-		BoundingBox Bbox(right,left,top/2,bottom/2);
+		BoundingBox Bbox(right,left,top,bottom);
 		return Bbox;
 	}
 

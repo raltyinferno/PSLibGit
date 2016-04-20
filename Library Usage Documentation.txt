@@ -1,0 +1,130 @@
+Postscript Library Use Documentation:
+
+**********************
+Object Creation
+**********************
+
+-Basic unit of distance in postscript is 1/72 inches
+
+Shapes are created via constructor call, with parameters for their sizes
+all shapes are drawn around the current origin
+
+----------------
+Basic Shapes
+----------------
+
+-Circle(Circle name(rad))
+ex: Circle c1(5)
+creates a circle with radius of 5 units
+
+-Square(Sqaure name(edge length))
+ex: Square s1(5)
+creates a square with sides of length 5 units
+
+-Rectange(Rectange name(height,width))
+ex: Rectange r1(2,3)
+creates rectangle 2 units high and 3 units wide
+
+-Triangle(Triangle name(edge length))
+ex: Triange t1(5)
+creates a regular triangle with edges 5 units long
+
+-Polygon(Polygon name(sides,edge length)
+ex: Polygon p1(10,5)
+creates a decagon with sides 5 units long
+
+-Nice(Nice name())
+ex: Nice n1
+creates an alien head thing
+
+-Spacer(Spacer name(height,width))
+ex: Spacer sp1(2,5)
+Draws nothing, but creates an object 2 units high and 5 units wide
+
+----------------
+Modified Shapes
+----------------
+
+-Rotated Shape(Rotater name(angle, pointer to shape to rotate))
+ex: Rotater rot1(45,&s1)
+Rotates s1 by 45 degrees
+
+-Scaled Shape(Scaler name(x scale, y scale, shape to be scaled))
+ex: Scaler sca1(.5, 2, &c1)
+Makes c1 half as wide and twice as tall
+
+----------------
+Compound Shapes
+----------------
+
+-Layer Shapes(Layerd name = {list of pointers to shapes})
+ex: Layered l1 = {&c1,&s1,&r1}
+Creates a shape with c1, s1, and r1 centered on the same point
+
+**NOTE:STACKED SHAPES WILL NOT WORK PROPERLY WITH ROTATED SHAPES**(they can however be rotated properly)
+-Horizontal Stack(Horizontal name = {list of pointers to shapes})
+ex: Horizontal h1 = {&c1,&s1,&r1}
+Creates a shape with c1, s1, and, r1 lined up left to right centered around the same y
+
+-Vertical Stack(Vertical name = {list of pointers to shapes})
+ex: Vertical v2 = {&c1,&s1,&r1}
+Creates a shape with c1, s1, and, r1 lined up top to bottom centered around the same x
+
+
+
+******************
+Usage
+******************
+
+To convert from inches to postscript default units use the inches function
+ex: inch(1)
+ex: Circle c1(inch(3))
+Creates a circle with a radius of 3 inches
+
+Included in the library is a Document class for creating postscript files.
+
+To create a new postscript file create a new Document object with the name of the output file
+ex: Document d1("pretty_picture.ps")
+
+in order to add shapes to the document use the stream insertion operator << and the shape's draw function
+ex: d1 << c1.draw()
+
+All shapes are drawn around the origin, which by default is at 0,0 the bottom left corner of the page.
+To change where shapes are drawn use the setOrigin function, the first parameter being x, the second y.
+ex: d1 << setOrigin(72,72)
+Keep in mind that this is relative, so doing setOrigin(72,72) twice in a row will set the origin to 144, 144
+
+Once you have drawn everything you want on the page to show it use the endPage fucntion of the Document
+ex: d1.endPage()
+afterwhich you can either keep adding shapes, which will now be on a new page, or output to the file with the
+print function
+ex: d1.print()
+
+***************
+Sample Program
+***************
+
+#include "Shape.h"
+
+int main()
+{
+	Document d1("pretty_picture.ps");
+	Circle c1(inch(1));
+	Square s1(inch(2));
+	Layered l1 = {&c1,&s1};
+	Horizontal h1 = {&l1,&l1};
+	Vertical v1 = {&h1, &h1};
+	Rotater r1(45,&v1);
+	
+	d1 << setOrigin(inch(3), inch(3));
+	d1 << r1.draw();
+	
+	d1.endPage();
+	d1.print();
+}
+
+
+
+
+
+

@@ -6,7 +6,7 @@ using std::endl;
 int main()
 {
 	Document d1("document_test.ps");
-
+	//d1 << setOrigin(inch(3), inch(3));
 	//Circle
 	Circle c1(inch(.5));
 	Rotater r1(45,&c1);;
@@ -23,7 +23,7 @@ int main()
 	d1 << r3.draw();
 
 	// Nice
-	Nice n1(inch(0), inch(0));
+	Nice n1;
 	d1 << n1.draw();
 
 	// Triangle
@@ -79,7 +79,7 @@ int main()
 	d1 << tri1.draw();//drawn at origin
 
 
-	Nice n2(inch(0), inch(0));
+	Nice n2;
 	Scaler s57(.5,.5, &n2);
 	Horizontal h69 = { &s57, &p1, &s57 };
 	Vertical v20 = { &h69, &l1, &h69, &l1};
